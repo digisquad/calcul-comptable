@@ -20,7 +20,7 @@ function CalculAmortissements() {
     <form className="max-w-lg mx-auto bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
       <h2 className="text-2xl font-bold mb-6 text-gray-800">Gestion des Amortissements</h2>
       <div className="mb-4">
-        <Label htmlFor="valeurAcquisition" className="block text-gray-700 text-sm font-bold mb-2">Valeur d'Acquisition (MAD)</Label>
+        <Label htmlFor="valeurAcquisition" className="block text-gray-700 text-sm font-bold mb-2">Valeur d&apos;Acquisition (MAD)</Label>
         <Input 
           id="valeurAcquisition" 
           type="number" 
@@ -40,7 +40,7 @@ function CalculAmortissements() {
         />
       </div>
       <div className="mb-4">
-        <Label htmlFor="dureeAmortissement" className="block text-gray-700 text-sm font-bold mb-2">Durée d'Amortissement (années)</Label>
+        <Label htmlFor="dureeAmortissement" className="block text-gray-700 text-sm font-bold mb-2">Durée d&apos;Amortissement (années)</Label>
         <Input 
           id="dureeAmortissement" 
           type="number" 

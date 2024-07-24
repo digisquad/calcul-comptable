@@ -21,7 +21,7 @@ function CalculMargesBenefices() {
     <form className="max-w-lg mx-auto bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
       <h2 className="text-2xl font-bold mb-6 text-gray-800">Calcul des Marges et Bénéfices</h2>
       <div className="mb-4">
-        <Label htmlFor="chiffreAffaires" className="block text-gray-700 text-sm font-bold mb-2">Chiffre d'Affaires (MAD)</Label>
+        <Label htmlFor="chiffreAffaires" className="block text-gray-700 text-sm font-bold mb-2">Chiffre d&apos;Affaires (MAD)</Label>
         <Input 
           id="chiffreAffaires" 
           type="number" 
