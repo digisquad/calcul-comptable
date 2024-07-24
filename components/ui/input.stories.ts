@@ -3,7 +3,7 @@ import { fn } from '@storybook/test';
 import { Input } from './input';
 
 const meta = {
-  title: 'Example/Input',
+  title: 'ui/Input',
   component: Input,
   parameters: {
     layout: 'centered',
