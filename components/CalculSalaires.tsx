@@ -1,17 +1,23 @@
 "use client";
 
 import { useState } from 'react';
+import Decimal from 'decimal.js';
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
 
 function CalculSalaires() {
-  const [salaireBrut, setSalaireBrut] = useState(0);
-  const [cotisationsSociales, setCotisationsSociales] = useState(0);
-  const [salaireNet, setSalaireNet] = useState(0);
+  const [salaireBrut, setSalaireBrut] = useState(new Decimal(0));
+  const [cotisationsSociales, setCotisationsSociales] = useState(new Decimal(0));
+  const [salaireNet, setSalaireNet] = useState(new Decimal(0));
 
+  const handleInputChange = (setter: React.Dispatch<React.SetStateAction<Decimal>>) => (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = new Decimal(e.target.value);
+    setter(value);
+  };
+  
   const calculerSalaireNet = () => {
-    setSalaireNet(salaireBrut - cotisationsSociales);
+    setSalaireNet(salaireBrut.minus(cotisationsSociales));
   };
 
   return (
@@ -22,8 +28,8 @@ function CalculSalaires() {
         <Input 
           id="salaireBrut" 
           type="number" 
-          value={salaireBrut} 
-          onChange={(e) => setSalaireBrut(Number(e.target.value))}
+          value={salaireBrut.toString()} 
+          onChange={handleInputChange(setSalaireBrut)}
           className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         />
       </div>
@@ -32,8 +38,8 @@ function CalculSalaires() {
         <Input 
           id="cotisationsSociales" 
           type="number" 
-          value={cotisationsSociales} 
-          onChange={(e) => setCotisationsSociales(Number(e.target.value))}
+          value={cotisationsSociales.toString()} 
+          onChange={handleInputChange(setCotisationsSociales)}
           className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         />
       </div>
@@ -47,7 +53,7 @@ function CalculSalaires() {
         </Button>
       </div>
       <div className="mt-6">
-        <p className="text-gray-700 text-sm">Salaire Net (MAD): <span className="font-bold">{salaireNet}</span></p>
+        <p className="text-gray-700 text-sm">Salaire Net (MAD): <span className="font-bold">{salaireNet.toString()}</span></p>
       </div>
     </form>
   );

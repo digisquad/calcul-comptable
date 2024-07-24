@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from 'react';
+import Decimal from 'decimal.js';
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
@@ -11,8 +12,11 @@ function CalculHTTTC() {
   const [totalTTC, setTotalTTC] = useState(0);
 
   const calculerTTC = () => {
-    const ttc = montantHT * (1 + tauxTVA / 100);
-    setTotalTTC(ttc);
+    const montantHTDecimal = new Decimal(montantHT);
+    const tauxTVADecimal = new Decimal(tauxTVA);
+    const ttc = montantHTDecimal.times(new Decimal(1).plus(tauxTVADecimal.dividedBy(100))).toDecimalPlaces(2);
+
+    setTotalTTC(ttc.toNumber());
   };
 
   return (

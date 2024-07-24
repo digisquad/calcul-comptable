@@ -18,8 +18,10 @@ const componentMap = {
   CalculSalaires,
 };
 
+export type ComponentKey = keyof typeof componentMap;
+
 const FormContainer: React.FC = () => {
-  const [activeComponent, setActiveComponent] = useState<keyof typeof componentMap>('CalculTVA');
+  const [activeComponent, setActiveComponent] = useState<ComponentKey>('CalculTVA');
 
   const ActiveComponent = componentMap[activeComponent];
 

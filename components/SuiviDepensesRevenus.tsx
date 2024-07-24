@@ -1,39 +1,40 @@
 "use client";
 
 import { useState } from 'react';
+import Decimal from 'decimal.js';
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
 
 function SuiviDepensesRevenus() {
-  const [depenses, setDepenses] = useState([0]);
-  const [revenus, setRevenus] = useState([0]);
-  const [totalDepenses, setTotalDepenses] = useState(0);
-  const [totalRevenus, setTotalRevenus] = useState(0);
+  const [depenses, setDepenses] = useState<Decimal[]>([new Decimal(0)]);
+  const [revenus, setRevenus] = useState<Decimal[]>([new Decimal(0)]);
+  const [totalDepenses, setTotalDepenses] = useState(new Decimal(0));
+  const [totalRevenus, setTotalRevenus] = useState(new Decimal(0));
 
-  const handleDepenseChange = (index, value) => {
+  const handleDepenseChange = (index: number, value: string) => {
     const newDepenses = [...depenses];
-    newDepenses[index] = Number(value);
+    newDepenses[index] = new Decimal(value);
     setDepenses(newDepenses);
   };
 
-  const handleRevenuChange = (index, value) => {
+  const handleRevenuChange = (index: number, value: string) => {
     const newRevenus = [...revenus];
-    newRevenus[index] = Number(value);
+    newRevenus[index] = new Decimal(value);
     setRevenus(newRevenus);
   };
 
   const addDepense = () => {
-    setDepenses([...depenses, 0]);
+    setDepenses([...depenses, new Decimal(0)]);
   };
 
   const addRevenu = () => {
-    setRevenus([...revenus, 0]);
+    setRevenus([...revenus, new Decimal(0)]);
   };
 
   const calculerTotaux = () => {
-    setTotalDepenses(depenses.reduce((acc, dep) => acc + dep, 0));
-    setTotalRevenus(revenus.reduce((acc, rev) => acc + rev, 0));
+    setTotalDepenses(depenses.reduce((acc, dep) => acc.plus(dep), new Decimal(0)));
+    setTotalRevenus(revenus.reduce((acc, rev) => acc.plus(rev), new Decimal(0)));
   };
 
   return (
@@ -46,7 +47,7 @@ function SuiviDepensesRevenus() {
             key={index}
             id={`depense-${index}`}
             type="number"
-            value={depense}
+            value={depense.toString()}
             onChange={(e) => handleDepenseChange(index, e.target.value)}
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-2"
           />
@@ -60,7 +61,7 @@ function SuiviDepensesRevenus() {
             key={index}
             id={`revenu-${index}`}
             type="number"
-            value={revenu}
+            value={revenu.toString()}
             onChange={(e) => handleRevenuChange(index, e.target.value)}
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-2"
           />
@@ -77,8 +78,8 @@ function SuiviDepensesRevenus() {
         </Button>
       </div>
       <div className="mt-6">
-        <p className="text-gray-700 text-sm">Dépenses Totales (MAD): <span className="font-bold">{totalDepenses}</span></p>
-        <p className="text-gray-700 text-sm">Revenus Totals (MAD): <span className="font-bold">{totalRevenus}</span></p>
+        <p className="text-gray-700 text-sm">Dépenses Totales (MAD): <span className="font-bold">{totalDepenses.toString()}</span></p>
+        <p className="text-gray-700 text-sm">Revenus Totals (MAD): <span className="font-bold">{totalRevenus.toString()}</span></p>
       </div>
     </form>
   );

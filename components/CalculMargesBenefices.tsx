@@ -1,20 +1,26 @@
 "use client";
 
 import { useState } from 'react';
+import Decimal from 'decimal.js';
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
 
 function CalculMargesBenefices() {
-  const [chiffreAffaires, setChiffreAffaires] = useState(0);
-  const [coutVentes, setCoutVentes] = useState(0);
-  const [margeBrute, setMargeBrute] = useState(0);
-  const [margeNette, setMargeNette] = useState(0);
+  const [chiffreAffaires, setChiffreAffaires] = useState(new Decimal(0));
+  const [coutVentes, setCoutVentes] = useState(new Decimal(0));
+  const [margeBrute, setMargeBrute] = useState(new Decimal(0));
+  const [margeNette, setMargeNette] = useState(new Decimal(0));
+
+  const handleInputChange = (setter: React.Dispatch<React.SetStateAction<Decimal>>) => (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = new Decimal(e.target.value);
+    setter(value);
+  };
 
   const calculerMarge = () => {
-    const margeB = chiffreAffaires - coutVentes;
+    const margeB = chiffreAffaires.minus(coutVentes);
     setMargeBrute(margeB);
-    setMargeNette((margeB / chiffreAffaires) * 100);
+    setMargeNette(margeB.div(chiffreAffaires).times(100));
   };
 
   return (
@@ -25,8 +31,8 @@ function CalculMargesBenefices() {
         <Input 
           id="chiffreAffaires" 
           type="number" 
-          value={chiffreAffaires} 
-          onChange={(e) => setChiffreAffaires(Number(e.target.value))}
+          value={chiffreAffaires.toString()} 
+          onChange={handleInputChange(setChiffreAffaires)}
           className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         />
       </div>
@@ -35,8 +41,8 @@ function CalculMargesBenefices() {
         <Input 
           id="coutVentes" 
           type="number" 
-          value={coutVentes} 
-          onChange={(e) => setCoutVentes(Number(e.target.value))}
+          value={coutVentes.toString()} 
+          onChange={handleInputChange(setCoutVentes)}
           className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         />
       </div>
@@ -50,7 +56,7 @@ function CalculMargesBenefices() {
         </Button>
       </div>
       <div className="mt-6">
-        <p className="text-gray-700 text-sm">Marge Brute (MAD): <span className="font-bold">{margeBrute}</span></p>
+        <p className="text-gray-700 text-sm">Marge Brute (MAD): <span className="font-bold">{margeBrute.toString()}</span></p>
         <p className="text-gray-700 text-sm">Marge Nette (%): <span className="font-bold">{margeNette.toFixed(2)}</span></p>
       </div>
     </form>

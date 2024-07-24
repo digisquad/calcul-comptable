@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from 'react';
+import Decimal from 'decimal.js';
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
@@ -12,9 +13,14 @@ function CalculTVA() {
   const [totalHT, setTotalHT] = useState(0);
 
   const calculerTVA = () => {
-    const tva = (totalTTC * tauxTVA) / (100 + tauxTVA);
-    setMontantTVA(tva);
-    setTotalHT(totalTTC - tva);
+    const totalTTCDecimal = new Decimal(totalTTC);
+    const tauxTVADecimal = new Decimal(tauxTVA);
+    const divisor = new Decimal(100).plus(tauxTVADecimal);
+    const tva = totalTTCDecimal.times(tauxTVADecimal).dividedBy(divisor).toDecimalPlaces(2);
+    const totalHT = totalTTCDecimal.minus(tva).toDecimalPlaces(2);
+
+    setMontantTVA(tva.toNumber());
+    setTotalHT(totalHT.toNumber());
   };
 
   return (

@@ -6,7 +6,8 @@ import {
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
-} from "@/components/navigation-menu"
+} from "@/components/navigation-menu";
+import { ComponentKey } from "@/app/page"; // Import the type from the main component
 
 const formComponents = [
   { name: "Calcul TVA", id: "CalculTVA" },
@@ -17,7 +18,11 @@ const formComponents = [
   { name: "Calcul Salaires", id: "CalculSalaires" },
 ];
 
-const Navigation: React.FC<{ setActiveComponent: (componentId: keyof typeof componentMap) => void }> = ({ setActiveComponent }) => {
+interface NavigationProps {
+  setActiveComponent: React.Dispatch<React.SetStateAction<ComponentKey>>;
+}
+
+const Navigation: React.FC<NavigationProps> = ({ setActiveComponent }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -34,7 +39,7 @@ const Navigation: React.FC<{ setActiveComponent: (componentId: keyof typeof comp
             <NavigationMenuItem key={component.id} className="w-full">
               <NavigationMenuLink 
                 onClick={() => {
-                  setActiveComponent(component.id as keyof typeof componentMap);
+                  setActiveComponent(component.id as ComponentKey);
                   setIsOpen(false);
                 }}
                 className="block w-full py-2 px-4 hover:bg-gray-100 cursor-pointer"
