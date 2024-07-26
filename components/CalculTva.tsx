@@ -2,7 +2,7 @@
 
 import { useState, ChangeEvent } from 'react';
 import Decimal from 'decimal.js';
-import { Button } from "./ui/Form/Button/button";
+import { Button } from "./ui/Form/Button/Button";
 import { InputWithLabel } from "@/components/ui/Form/InputWithLabel/InputWithLabel";  
 
 const CalculTVA = () => {

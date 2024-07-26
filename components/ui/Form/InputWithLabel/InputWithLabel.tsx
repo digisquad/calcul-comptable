@@ -13,15 +13,17 @@ const labelVariants = cva(
 );
 
 const InputWithLabel = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className, type, label, labelClassName, ...props }, ref) => {
+  ({ className, type, label, labelClassName, id, ...props }, ref) => {
     return (
       <div>
         <LabelPrimitive.Root
+          htmlFor={id} // Add htmlFor attribute here
           className={cn(labelVariants(), labelClassName)}
         >
           {label}
         </LabelPrimitive.Root>
         <input
+          id={id} // Ensure the id is set on the input
           type={type}
           className={cn(
             "flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
