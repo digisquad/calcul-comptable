@@ -2,9 +2,9 @@
 
 import { useState } from 'react';
 import Decimal from 'decimal.js';
-import { Button } from "../components/ui/button";
-import { Input } from "../components/ui/input";
-import { Label } from "../components/ui/label";
+import { Button } from "./ui/Form/Button/button";
+import { Input } from "./ui/Form/Input/input";
+import { Label } from "./ui/Form/Label/label";
 
 function CalculSalaires() {
   const [salaireBrut, setSalaireBrut] = useState(new Decimal(0));
@@ -15,7 +15,7 @@ function CalculSalaires() {
     const value = new Decimal(e.target.value);
     setter(value);
   };
-  
+
   const calculerSalaireNet = () => {
     setSalaireNet(salaireBrut.minus(cotisationsSociales));
   };

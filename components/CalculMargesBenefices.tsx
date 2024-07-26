@@ -2,9 +2,9 @@
 
 import { useState } from 'react';
 import Decimal from 'decimal.js';
-import { Button } from "../components/ui/button";
-import { Input } from "../components/ui/input";
-import { Label } from "../components/ui/label";
+import { Button } from "./ui/Form/Button/button";
+import { Input } from "./ui/Form/Input/input";
+import { Label } from "./ui/Form/Label/label";
 
 function CalculMargesBenefices() {
   const [chiffreAffaires, setChiffreAffaires] = useState(new Decimal(0));

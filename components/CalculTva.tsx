@@ -1,16 +1,37 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, ChangeEvent } from 'react';
 import Decimal from 'decimal.js';
-import { Button } from "../components/ui/button";
-import { Input } from "../components/ui/input";
-import { Label } from "../components/ui/label";
+import { Button } from "./ui/Form/Button/button";
+import { Input } from "./ui/Form/Input/input";
+import { Label } from "./ui/Form/Label/label";
 
-function CalculTVA() {
-  const [totalTTC, setTotalTTC] = useState(0);
-  const [tauxTVA, setTauxTVA] = useState(20);
-  const [montantTVA, setMontantTVA] = useState(0);
-  const [totalHT, setTotalHT] = useState(0);
+interface InputFieldProps {
+  id: string;
+  label: string;
+  type: string;
+  value: number;
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+}
+
+const InputField: React.FC<InputFieldProps> = ({ id, label, type, value, onChange }) => (
+  <div className="mb-4">
+    <Label htmlFor={id} className="block text-gray-700 text-sm font-bold mb-2">{label}</Label>
+    <Input
+      id={id}
+      type={type}
+      value={value}
+      onChange={onChange}
+      className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+    />
+  </div>
+);
+
+const CalculTVA: React.FC = () => {
+  const [totalTTC, setTotalTTC] = useState<number>(0);
+  const [tauxTVA, setTauxTVA] = useState<number>(20);
+  const [montantTVA, setMontantTVA] = useState<number>(0);
+  const [totalHT, setTotalHT] = useState<number>(0);
 
   const calculerTVA = () => {
     const totalTTCDecimal = new Decimal(totalTTC);
@@ -26,26 +47,20 @@ function CalculTVA() {
   return (
     <form className="max-w-lg mx-auto bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
       <h2 className="text-2xl font-bold mb-6 text-gray-800">Calcul de la TVA</h2>
-      <div className="mb-4">
-        <Label htmlFor="totalTTC" className="block text-gray-700 text-sm font-bold mb-2">Total TTC (MAD)</Label>
-        <Input 
-          id="totalTTC" 
-          type="number" 
-          value={totalTTC} 
-          onChange={(e) => setTotalTTC(Number(e.target.value))}
-          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-        />
-      </div>
-      <div className="mb-4">
-        <Label htmlFor="tauxTVA" className="block text-gray-700 text-sm font-bold mb-2">Taux de TVA (%)</Label>
-        <Input 
-          id="tauxTVA" 
-          type="number" 
-          value={tauxTVA} 
-          onChange={(e) => setTauxTVA(Number(e.target.value))}
-          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-        />
-      </div>
+      <InputField 
+        id="totalTTC" 
+        label="Total TTC (MAD)" 
+        type="number" 
+        value={totalTTC} 
+        onChange={(e) => setTotalTTC(Number(e.target.value))}
+      />
+      <InputField 
+        id="tauxTVA" 
+        label="Taux de TVA (%)" 
+        type="number" 
+        value={tauxTVA} 
+        onChange={(e) => setTauxTVA(Number(e.target.value))}
+      />
       <div className="flex items-center justify-between">
         <Button 
           type="button" 
