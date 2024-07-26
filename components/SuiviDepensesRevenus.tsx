@@ -3,10 +3,9 @@
 import { useState } from 'react';
 import Decimal from 'decimal.js';
 import { Button } from "./ui/Form/Button/button";
-import { Input } from "./ui/Form/Input/input";
-import { Label } from "./ui/Form/Label/label";
+import { InputWithLabel } from './ui/Form/InputWithLabel/InputWithLabel';
 
-function SuiviDepensesRevenus() {
+const SuiviDepensesRevenus = () => {
   const [depenses, setDepenses] = useState<Decimal[]>([new Decimal(0)]);
   const [revenus, setRevenus] = useState<Decimal[]>([new Decimal(0)]);
   const [totalDepenses, setTotalDepenses] = useState(new Decimal(0));
@@ -41,29 +40,29 @@ function SuiviDepensesRevenus() {
     <form className="max-w-lg mx-auto bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
       <h2 className="text-2xl font-bold mb-6 text-gray-800">Suivi des Dépenses et Revenus</h2>
       <div className="mb-4">
-        <Label htmlFor="depenses" className="block text-gray-700 text-sm font-bold mb-2">Liste des Dépenses (MAD)</Label>
         {depenses.map((depense, index) => (
-          <Input 
+          <InputWithLabel 
             key={index}
             id={`depense-${index}`}
             type="number"
             value={depense.toString()}
             onChange={(e) => handleDepenseChange(index, e.target.value)}
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-2"
+            label = "Liste des Dépenses (MAD)"
           />
         ))}
         <Button type="button" onClick={addDepense} className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Ajouter Dépense</Button>
       </div>
       <div className="mb-4">
-        <Label htmlFor="revenus" className="block text-gray-700 text-sm font-bold mb-2">Liste des Revenus (MAD)</Label>
         {revenus.map((revenu, index) => (
-          <Input 
+          <InputWithLabel
             key={index}
             id={`revenu-${index}`}
             type="number"
             value={revenu.toString()}
             onChange={(e) => handleRevenuChange(index, e.target.value)}
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-2"
+            label = "Liste des Revenus (MAD)"
           />
         ))}
         <Button type="button" onClick={addRevenu} className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Ajouter Revenu</Button>

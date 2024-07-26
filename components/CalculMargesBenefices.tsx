@@ -3,10 +3,10 @@
 import { useState } from 'react';
 import Decimal from 'decimal.js';
 import { Button } from "./ui/Form/Button/button";
-import { Input } from "./ui/Form/Input/input";
-import { Label } from "./ui/Form/Label/label";
+import { InputWithLabel } from "@/components/ui/Form/InputWithLabel/InputWithLabel";  
 
-function CalculMargesBenefices() {
+
+const CalculMargesBenefices = () => {
   const [chiffreAffaires, setChiffreAffaires] = useState(new Decimal(0));
   const [coutVentes, setCoutVentes] = useState(new Decimal(0));
   const [margeBrute, setMargeBrute] = useState(new Decimal(0));
@@ -27,23 +27,23 @@ function CalculMargesBenefices() {
     <form className="max-w-lg mx-auto bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
       <h2 className="text-2xl font-bold mb-6 text-gray-800">Calcul des Marges et Bénéfices</h2>
       <div className="mb-4">
-        <Label htmlFor="chiffreAffaires" className="block text-gray-700 text-sm font-bold mb-2">Chiffre d&apos;Affaires (MAD)</Label>
-        <Input 
+        <InputWithLabel
           id="chiffreAffaires" 
           type="number" 
           value={chiffreAffaires.toString()} 
           onChange={handleInputChange(setChiffreAffaires)}
           className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          label = "Chiffre d'Affaires (MAD)"
         />
       </div>
       <div className="mb-4">
-        <Label htmlFor="coutVentes" className="block text-gray-700 text-sm font-bold mb-2">Coût des Ventes (MAD)</Label>
-        <Input 
+        <InputWithLabel
           id="coutVentes" 
           type="number" 
           value={coutVentes.toString()} 
           onChange={handleInputChange(setCoutVentes)}
           className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          label = "Coût des Ventes (MAD)"
         />
       </div>
       <div className="flex items-center justify-between">

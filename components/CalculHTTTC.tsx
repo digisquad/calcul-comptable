@@ -3,13 +3,16 @@
 import { useState } from 'react';
 import Decimal from 'decimal.js';
 import { Button } from "./ui/Form/Button/button";
-import { Input } from "./ui/Form/Input/input";
-import { Label } from "./ui/Form/Label/label";
+import { InputWithLabel } from "@/components/ui/Form/InputWithLabel/InputWithLabel";  
 
-function CalculHTTTC() {
-  const [montantHT, setMontantHT] = useState(0);
-  const [tauxTVA, setTauxTVA] = useState(20);
-  const [totalTTC, setTotalTTC] = useState(0);
+const CalculHTTTC = () => {
+  const [montantHT, setMontantHT] = useState<number>(0);
+  const [tauxTVA, setTauxTVA] = useState<number>(20);
+  const [totalTTC, setTotalTTC] = useState<number>(0);
+
+  const handleInputChange = (setter: React.Dispatch<React.SetStateAction<number>>) => (e: React.ChangeEvent<HTMLInputElement>) => {
+    setter(Number(e.target.value));
+  };
 
   const calculerTTC = () => {
     const montantHTDecimal = new Decimal(montantHT);
@@ -23,22 +26,22 @@ function CalculHTTTC() {
     <form className="max-w-lg mx-auto bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
       <h2 className="text-2xl font-bold mb-6 text-gray-800">Calcul des Totaux HT et TTC</h2>
       <div className="mb-4">
-        <Label htmlFor="montantHT" className="block text-gray-700 text-sm font-bold mb-2">Montant HT (MAD)</Label>
-        <Input 
+        <InputWithLabel 
           id="montantHT" 
+          label="Montant HT (MAD)"
           type="number" 
-          value={montantHT} 
-          onChange={(e) => setMontantHT(Number(e.target.value))}
+          value={montantHT.toString()} 
+          onChange={handleInputChange(setMontantHT)}
           className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         />
       </div>
       <div className="mb-4">
-        <Label htmlFor="tauxTVA" className="block text-gray-700 text-sm font-bold mb-2">Taux de TVA (%)</Label>
-        <Input 
+        <InputWithLabel 
           id="tauxTVA" 
+          label="Taux de TVA (%)"
           type="number" 
-          value={tauxTVA} 
-          onChange={(e) => setTauxTVA(Number(e.target.value))}
+          value={tauxTVA.toString()} 
+          onChange={handleInputChange(setTauxTVA)}
           className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         />
       </div>

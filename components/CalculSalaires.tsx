@@ -3,10 +3,9 @@
 import { useState } from 'react';
 import Decimal from 'decimal.js';
 import { Button } from "./ui/Form/Button/button";
-import { Input } from "./ui/Form/Input/input";
-import { Label } from "./ui/Form/Label/label";
+import { InputWithLabel } from "@/components/ui/Form/InputWithLabel/InputWithLabel";  
 
-function CalculSalaires() {
+const CalculSalaires = () => {
   const [salaireBrut, setSalaireBrut] = useState(new Decimal(0));
   const [cotisationsSociales, setCotisationsSociales] = useState(new Decimal(0));
   const [salaireNet, setSalaireNet] = useState(new Decimal(0));
@@ -24,9 +23,9 @@ function CalculSalaires() {
     <form className="max-w-lg mx-auto bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
       <h2 className="text-2xl font-bold mb-6 text-gray-800">Calcul des Salaires Net et Brut</h2>
       <div className="mb-4">
-        <Label htmlFor="salaireBrut" className="block text-gray-700 text-sm font-bold mb-2">Salaire Brut (MAD)</Label>
-        <Input 
+        <InputWithLabel 
           id="salaireBrut" 
+          label="Salaire Brut (MAD)"
           type="number" 
           value={salaireBrut.toString()} 
           onChange={handleInputChange(setSalaireBrut)}
@@ -34,9 +33,9 @@ function CalculSalaires() {
         />
       </div>
       <div className="mb-4">
-        <Label htmlFor="cotisationsSociales" className="block text-gray-700 text-sm font-bold mb-2">Cotisations Sociales (MAD)</Label>
-        <Input 
+        <InputWithLabel 
           id="cotisationsSociales" 
+          label="Cotisations Sociales (MAD)"
           type="number" 
           value={cotisationsSociales.toString()} 
           onChange={handleInputChange(setCotisationsSociales)}

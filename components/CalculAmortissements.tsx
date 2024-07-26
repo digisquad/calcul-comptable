@@ -2,14 +2,17 @@
 
 import { useState } from 'react';
 import { Button } from "./ui/Form/Button/button";
-import { Input } from "./ui/Form/Input/input";
-import { Label } from "./ui/Form/Label/label";
+import { InputWithLabel } from "@/components/ui/Form/InputWithLabel/InputWithLabel";  
 
-function CalculAmortissements() {
-  const [valeurAcquisition, setValeurAcquisition] = useState(0);
-  const [valeurResiduelle, setValeurResiduelle] = useState(0);
-  const [dureeAmortissement, setDureeAmortissement] = useState(0);
-  const [amortissementAnnuel, setAmortissementAnnuel] = useState(0);
+const CalculAmortissements = () => {
+  const [valeurAcquisition, setValeurAcquisition] = useState<number>(0);
+  const [valeurResiduelle, setValeurResiduelle] = useState<number>(0);
+  const [dureeAmortissement, setDureeAmortissement] = useState<number>(0);
+  const [amortissementAnnuel, setAmortissementAnnuel] = useState<number>(0);
+
+  const handleInputChange = (setter: React.Dispatch<React.SetStateAction<number>>) => (e: React.ChangeEvent<HTMLInputElement>) => {
+    setter(Number(e.target.value));
+  };
 
   const calculerAmortissement = () => {
     const amortissement = (valeurAcquisition - valeurResiduelle) / dureeAmortissement;
@@ -20,32 +23,32 @@ function CalculAmortissements() {
     <form className="max-w-lg mx-auto bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
       <h2 className="text-2xl font-bold mb-6 text-gray-800">Gestion des Amortissements</h2>
       <div className="mb-4">
-        <Label htmlFor="valeurAcquisition" className="block text-gray-700 text-sm font-bold mb-2">Valeur d&apos;Acquisition (MAD)</Label>
-        <Input 
+        <InputWithLabel 
           id="valeurAcquisition" 
+          label="Valeur d'Acquisition (MAD)" 
           type="number" 
-          value={valeurAcquisition} 
-          onChange={(e) => setValeurAcquisition(Number(e.target.value))}
+          value={valeurAcquisition.toString()} 
+          onChange={handleInputChange(setValeurAcquisition)}
           className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         />
       </div>
       <div className="mb-4">
-        <Label htmlFor="valeurResiduelle" className="block text-gray-700 text-sm font-bold mb-2">Valeur Résiduelle (MAD)</Label>
-        <Input 
+        <InputWithLabel 
           id="valeurResiduelle" 
+          label="Valeur Résiduelle (MAD)" 
           type="number" 
-          value={valeurResiduelle} 
-          onChange={(e) => setValeurResiduelle(Number(e.target.value))}
+          value={valeurResiduelle.toString()} 
+          onChange={handleInputChange(setValeurResiduelle)}
           className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         />
       </div>
       <div className="mb-4">
-        <Label htmlFor="dureeAmortissement" className="block text-gray-700 text-sm font-bold mb-2">Durée d&apos;Amortissement (années)</Label>
-        <Input 
+        <InputWithLabel 
           id="dureeAmortissement" 
+          label="Durée d'Amortissement (années)" 
           type="number" 
-          value={dureeAmortissement} 
-          onChange={(e) => setDureeAmortissement(Number(e.target.value))}
+          value={dureeAmortissement.toString()} 
+          onChange={handleInputChange(setDureeAmortissement)}
           className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         />
       </div>
