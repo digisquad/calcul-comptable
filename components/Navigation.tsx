@@ -6,7 +6,7 @@ import {
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
-} from "@/components/navigation-menu";
+} from "@/components/NavigationMenu";
 import { ComponentKey } from "@/app/page"; // Import the type from the main component
 
 const formComponents = [
