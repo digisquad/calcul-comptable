@@ -1,5 +1,4 @@
 name: Deploy to Vercel
-
 on:
   push:
     branches:
@@ -7,7 +6,6 @@ on:
   pull_request:
     branches:
       - main
-
 jobs:
   deploy:
     name: Deploy to Vercel
@@ -20,12 +18,10 @@ jobs:
         run: npm install -g pnpm
 
       - name: Setup pnpm
-        env:
-          SHELL: bash
         run: pnpm setup
 
       - name: Add pnpm to PATH
-        run: echo "::add-path::$(pnpm bin -g)"
+        run: echo "$HOME/.local/share/pnpm" >> $GITHUB_PATH
 
       - name: Install dependencies
         run: pnpm install
