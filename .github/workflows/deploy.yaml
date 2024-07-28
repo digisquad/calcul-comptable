@@ -1,37 +1,33 @@
 name: Deploy to Vercel
+
 on:
   push:
     branches:
       - main
-  pull_request:
-    branches:
-      - main
+
 jobs:
   deploy:
-    name: Deploy to Vercel
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+    - name: Checkout repository
+      uses: actions/checkout@v2
 
-      - name: Install pnpm
-        run: npm install -g pnpm
+    - name: Install pnpm
+      run: |
+        npm install -g pnpm
 
-      - name: Setup pnpm
-        run: pnpm setup
+    - name: Install dependencies
+      run: |
+        pnpm install
 
-      - name: Add pnpm to PATH
-        run: echo "$HOME/.local/share/pnpm" >> $GITHUB_PATH
+    - name: Build project
+      run: |
+        pnpm build
 
-      - name: Install dependencies
-        run: pnpm install
-
-      - name: Build Next.js app
-        run: pnpm run build
-
-      - name: Deploy to Vercel
-        env:
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-        run: |
-          pnpm install -g vercel
-          vercel --prod --token=$VERCEL_TOKEN
+    - name: Deploy to Vercel
+      env:
+        VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      run: |
+        npm install -g vercel
+        vercel --prod --token $VERCEL_TOKEN
