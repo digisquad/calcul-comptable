@@ -1,6 +1,6 @@
-"use client";  // Add this line at the top
+"use client" // Add this line at the top
 
-import CalculTVA from "../components/CalculTva";
+import CalculTVA from "../components/business/calculate-tva"
 
 export default function Home() {
   return (
@@ -10,5 +10,5 @@ export default function Home() {
       <br></br>
       <CalculTVA />
     </div>
-  );
+  )
 }

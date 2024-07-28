@@ -26,13 +26,34 @@ yarn-debug.log*
 yarn-error.log*
 
 # local env files
-.env*.local
+*.local.*
 
 # vercel
 .vercel
 
 # typescript
 *.tsbuildinfo
-next-env.d.ts
 
-*storybook.log
+#idea
+.idea
+
+# jest test result report
+junit.xml
+
+# ignore npm lock file
+package-lock.json
+
+# ignore hook init script
+.husky/.hook_init
+
+.swc
+
+# vscode
+.vscode
+
+
+# .cicach
+.cicache
+
+# .pnpm
+.pnpm-store

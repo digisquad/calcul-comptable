@@ -1,9 +1,7 @@
-import type { StorybookConfig } from "@storybook/nextjs";
+import type { StorybookConfig } from "@storybook/nextjs"
 
 const config: StorybookConfig = {
-  stories: [
-    "../components/ui/**/*.stories.@(js|jsx|mjs|ts|tsx)",
-  ],
+  stories: ["../components/ui/**/*.stories.@(js|jsx|mjs|ts|tsx)"],
   addons: [
     "@storybook/addon-onboarding",
     "@storybook/addon-links",
@@ -15,5 +13,5 @@ const config: StorybookConfig = {
     name: "@storybook/nextjs",
     options: {},
   },
-  };
-export default config;
+}
+export default config
