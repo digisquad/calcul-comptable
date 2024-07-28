@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import { Button, ButtonProps } from '@/components/ui/Form/Button/Button';
+import { Button, ButtonProps } from '@/components/ui/Form/Button/button';
 
 // Mock the cn function
 jest.mock('../lib/utils', () => ({
