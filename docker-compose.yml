@@ -1,0 +1,23 @@
+services:
+  web:
+    profiles:
+      - web-app
+    hostname: calcul-comptable-web
+    container_name: calcul-comptable-web
+    build: .
+    env_file: .env
+    ports:
+      - '$WEB_APP_PORT:3000'
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f -s http://localhost:$WEB_APP_PORT || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+    networks:
+      - calcul-comptable-web-network
+
+networks:
+  calcul-comptable-web-network:
+    name: calcul-comptable-web-network
+    driver: bridge
