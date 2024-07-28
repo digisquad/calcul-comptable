@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from 'react';
-import { Button } from "./ui/Form/Button/Button";
+import { Button } from "./ui/Form/Button/button";
 import { InputWithLabel } from "@/components/ui/Form/InputWithLabel/InputWithLabel";  
 
 const CalculAmortissements = () => {
