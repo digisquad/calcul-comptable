@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { fn } from '@storybook/test';
-import { Button, buttonVariants } from './Button';
+import { Button, buttonVariants } from './button';
 
 const meta = {
-  title: 'ui/Button',
+  title: 'Example/Button',
   component: Button,
   parameters: {
     layout: 'centered',
