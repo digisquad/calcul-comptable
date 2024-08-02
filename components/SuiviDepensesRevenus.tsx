@@ -1,8 +1,8 @@
 "use client";
 import { ChangeEvent } from 'react';
 import Decimal from 'decimal.js';
-import { Button } from "./ui/Form/Button/button";
-import { InputWithLabel } from './ui/Form/InputWithLabel/InputWithLabel';
+import { Button } from "@/components/ui/Form/Button/button";
+import { InputWithLabel } from '@/components/ui/Form/InputWithLabel/InputWithLabel';
 import { useDecimalArray } from '@/components/hooks/useDecimalArray';
 import { useDecimalInput } from '@/components/hooks/useDecimalInput';
 import { calculateTotal } from '@/components/helpers';

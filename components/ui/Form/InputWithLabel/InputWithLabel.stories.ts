@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { fn } from '@storybook/test';
-import { InputWithLabel } from './InputWithLabel';
+import { InputWithLabel } from '@/components/ui/Form/InputWithLabel/InputWithLabel';
 
 const meta = {
   title: 'ui/InputWithLabel',
