@@ -30,6 +30,7 @@ const CalculSalaires = () => {
       <div className="mb-4">
         <InputWithLabel 
           id="salaireBrut" 
+          name = "salaireBrut"
           label="Salaire Brut (MAD)" 
           type="number" 
           value={values.salaireBrut.toString()} 
@@ -40,6 +41,7 @@ const CalculSalaires = () => {
       <div className="mb-4">
         <InputWithLabel 
           id="cotisationsSociales" 
+          name = "cotisationsSociales"
           label="Cotisations Sociales (MAD)" 
           type="number" 
           value={values.cotisationsSociales.toString()} 

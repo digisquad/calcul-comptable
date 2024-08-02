@@ -29,7 +29,7 @@ const CalculHTTTC = () => {
       <div className="mb-4">
         <InputWithLabel 
           id="montantHT" 
-          name="montantHT"
+          name = "montantHT"
           label="Montant HT (MAD)"
           type="number" 
           value={values.montantHT.toString()} 
@@ -40,7 +40,7 @@ const CalculHTTTC = () => {
       <div className="mb-4">
         <InputWithLabel 
           id="tauxTVA" 
-          name="tauxTVA"
+          name = "tauxTVA"
           label="Taux de TVA (%)"
           type="number" 
           value={values.tauxTVA.toString()} 

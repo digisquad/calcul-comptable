@@ -31,6 +31,7 @@ const CalculTVA = () => {
       <div className="mb-4">
         <InputWithLabel 
           id="totalTTC" 
+          name = "totalTTC"
           label="Total TTC (MAD)" 
           type="number" 
           value={values.totalTTC.toString()} 

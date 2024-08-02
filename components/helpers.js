@@ -29,10 +29,14 @@ export const calculerMarge = ({ chiffreAffaires, coutVentes }) => {
       };
     };
     
-export const calculerSalaireNet = ({ salaireBrut, cotisationsSociales }) => {
-      return salaireBrut.minus(cotisationsSociales);
+
+    export const calculerSalaireNet = ({ salaireBrut, cotisationsSociales }) => {
+      const brut = new Decimal(salaireBrut);
+      const cotisations = new Decimal(cotisationsSociales);
+      
+      return brut.minus(cotisations).toNumber();
     };
-  
+    
   
 export const calculerTVA = ({ totalTTC, tauxTVA }) => {
       const totalTTCDecimal = new Decimal(totalTTC);
