@@ -1,72 +1,68 @@
 "use client";
-
-import { useState } from 'react';
+import { ChangeEvent } from 'react';
 import Decimal from 'decimal.js';
 import { Button } from "./ui/Form/Button/button";
 import { InputWithLabel } from './ui/Form/InputWithLabel/InputWithLabel';
+import { useDecimalArray } from '@/components/hooks/useDecimalArray';
+import { useDecimalInput } from '@/components/hooks/useDecimalInput';
+import { calculateTotal } from '@/components/helpers';
+
+interface DecimalArrayInputProps {
+  values: Decimal[];
+  onChange: (index: number, value: string) => void;
+  label: string;
+  addNewItem: () => void;
+}
+
+const DecimalArrayInput = ({ values, onChange, label, addNewItem }: DecimalArrayInputProps) => (
+  <div className="mb-4">
+    {values.map((value, index) => (
+      <InputWithLabel
+        key={index}
+        id={`${label.toLowerCase().replace(/\s+/g, '-')}-${index}`}
+        type="number"
+        value={value.toString()}
+        onChange={(e) => onChange(index, e.target.value)}
+        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-2"
+        label={label}
+      />
+    ))}
+    <Button
+      type="button"
+      onClick={addNewItem}
+      className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+    >
+      Ajouter
+    </Button>
+  </div>
+);
 
 const SuiviDepensesRevenus = () => {
-  const [depenses, setDepenses] = useState<Decimal[]>([new Decimal(0)]);
-  const [revenus, setRevenus] = useState<Decimal[]>([new Decimal(0)]);
-  const [totalDepenses, setTotalDepenses] = useState(new Decimal(0));
-  const [totalRevenus, setTotalRevenus] = useState(new Decimal(0));
-
-  const handleDepenseChange = (index: number, value: string) => {
-    const newDepenses = [...depenses];
-    newDepenses[index] = new Decimal(value);
-    setDepenses(newDepenses);
-  };
-
-  const handleRevenuChange = (index: number, value: string) => {
-    const newRevenus = [...revenus];
-    newRevenus[index] = new Decimal(value);
-    setRevenus(newRevenus);
-  };
-
-  const addDepense = () => {
-    setDepenses([...depenses, new Decimal(0)]);
-  };
-
-  const addRevenu = () => {
-    setRevenus([...revenus, new Decimal(0)]);
-  };
+  const [depenses, handleDepenseChange, addDepense] = useDecimalArray();
+  const [revenus, handleRevenuChange, addRevenu] = useDecimalArray();
+  const [totalDepenses, handleTotalDepensesChange] = useDecimalInput();
+  const [totalRevenus, handleTotalRevenusChange] = useDecimalInput();
 
   const calculerTotaux = () => {
-    setTotalDepenses(depenses.reduce((acc, dep) => acc.plus(dep), new Decimal(0)));
-    setTotalRevenus(revenus.reduce((acc, rev) => acc.plus(rev), new Decimal(0)));
+    handleTotalDepensesChange({ target: { value: calculateTotal(depenses).toString() } } as ChangeEvent<HTMLInputElement>);
+    handleTotalRevenusChange({ target: { value: calculateTotal(revenus).toString() } } as ChangeEvent<HTMLInputElement>);
   };
 
   return (
     <form className="max-w-lg mx-auto bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
       <h2 className="text-2xl font-bold mb-6 text-gray-800">Suivi des Dépenses et Revenus</h2>
-      <div className="mb-4">
-        {depenses.map((depense, index) => (
-          <InputWithLabel 
-            key={index}
-            id={`depense-${index}`}
-            type="number"
-            value={depense.toString()}
-            onChange={(e) => handleDepenseChange(index, e.target.value)}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-2"
-            label = "Liste des Dépenses (MAD)"
-          />
-        ))}
-        <Button type="button" onClick={addDepense} className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Ajouter Dépense</Button>
-      </div>
-      <div className="mb-4">
-        {revenus.map((revenu, index) => (
-          <InputWithLabel
-            key={index}
-            id={`revenu-${index}`}
-            type="number"
-            value={revenu.toString()}
-            onChange={(e) => handleRevenuChange(index, e.target.value)}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-2"
-            label = "Liste des Revenus (MAD)"
-          />
-        ))}
-        <Button type="button" onClick={addRevenu} className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Ajouter Revenu</Button>
-      </div>
+      <DecimalArrayInput
+        values={depenses}
+        onChange={handleDepenseChange}
+        label="Liste des Dépenses (MAD)"
+        addNewItem={addDepense}
+      />
+      <DecimalArrayInput
+        values={revenus}
+        onChange={handleRevenuChange}
+        label="Liste des Revenus (MAD)"
+        addNewItem={addRevenu}
+      />
       <div className="flex items-center justify-between">
         <Button 
           type="button" 

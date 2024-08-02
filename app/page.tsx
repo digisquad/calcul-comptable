@@ -2,12 +2,12 @@
 
 import React, { useState } from 'react';
 import Navigation from "@/components/Navigation";
-import CalculTVA from "../components/CalculTva";
-import CalculHTTTC from "../components/CalculHTTTC";
-import CalculMargesBenefices from "../components/CalculMargesBenefices";
-import CalculAmortissements from "../components/CalculAmortissements";
-import SuiviDepensesRevenus from "../components/SuiviDepensesRevenus";
-import CalculSalaires from "../components/CalculSalaires";
+import CalculTVA from "@/components/CalculTva";
+import CalculHTTTC from "@/components/CalculHTTTC";
+import CalculMargesBenefices from "@/components/CalculMargesBenefices";
+import CalculAmortissements from "@/components/CalculAmortissements";
+import SuiviDepensesRevenus from "@/components/SuiviDepensesRevenus";
+import CalculSalaires from "@/components/CalculSalaires";
 
 const componentMap = {
   CalculTVA,

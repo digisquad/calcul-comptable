@@ -1,22 +1,36 @@
 "use client";
 
-import { useState } from 'react';
-import { Button } from "./ui/Form/Button/button";
-import { InputWithLabel } from "@/components/ui/Form/InputWithLabel/InputWithLabel";  
+import { Button } from "@/components/ui/Form/Button/button";
+import { InputWithLabel } from "@/components/ui/Form/InputWithLabel/InputWithLabel";
+import { calculerAmortissement } from '@/components/helpers';
+import { useFormInput } from '@/components/hooks/useFormInput';
+
+
+interface Values {
+  valeurAcquisition: number;
+  valeurResiduelle: number;
+  dureeAmortissement: number;
+  amortissementAnnuel: number;
+}
 
 const CalculAmortissements = () => {
-  const [valeurAcquisition, setValeurAcquisition] = useState<number>(0);
-  const [valeurResiduelle, setValeurResiduelle] = useState<number>(0);
-  const [dureeAmortissement, setDureeAmortissement] = useState<number>(0);
-  const [amortissementAnnuel, setAmortissementAnnuel] = useState<number>(0);
+  const [values, handleChange, setValues] = useFormInput({
+    valeurAcquisition: 0,
+    valeurResiduelle: 0,
+    dureeAmortissement: 0,
+    amortissementAnnuel: 0,
+  });
 
-  const handleInputChange = (setter: React.Dispatch<React.SetStateAction<number>>) => (e: React.ChangeEvent<HTMLInputElement>) => {
-    setter(Number(e.target.value));
-  };
-
-  const calculerAmortissement = () => {
-    const amortissement = (valeurAcquisition - valeurResiduelle) / dureeAmortissement;
-    setAmortissementAnnuel(amortissement);
+  const handleCalculerAmortissement = () => {
+    const amortissement = calculerAmortissement(
+      values.valeurAcquisition,
+      values.valeurResiduelle,
+      values.dureeAmortissement
+    );
+    setValues((prevValues) => ({
+      ...prevValues,
+      amortissementAnnuel: amortissement.toNumber(),
+    }));
   };
 
   return (
@@ -25,44 +39,47 @@ const CalculAmortissements = () => {
       <div className="mb-4">
         <InputWithLabel 
           id="valeurAcquisition" 
+          name="valeurAcquisition"
           label="Valeur d'Acquisition (MAD)" 
           type="number" 
-          value={valeurAcquisition.toString()} 
-          onChange={handleInputChange(setValeurAcquisition)}
+          value={values.valeurAcquisition.toString()} 
+          onChange={handleChange}
           className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         />
       </div>
       <div className="mb-4">
         <InputWithLabel 
-          id="valeurResiduelle" 
+          id="valeurResiduelle"
+          name="valeurResiduelle"
           label="Valeur Résiduelle (MAD)" 
           type="number" 
-          value={valeurResiduelle.toString()} 
-          onChange={handleInputChange(setValeurResiduelle)}
+          value={values.valeurResiduelle.toString()} 
+          onChange={handleChange}
           className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         />
       </div>
       <div className="mb-4">
         <InputWithLabel 
-          id="dureeAmortissement" 
+          id="dureeAmortissement"
+          name="dureeAmortissement"
           label="Durée d'Amortissement (années)" 
           type="number" 
-          value={dureeAmortissement.toString()} 
-          onChange={handleInputChange(setDureeAmortissement)}
+          value={values.dureeAmortissement.toString()} 
+          onChange={handleChange}
           className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         />
       </div>
       <div className="flex items-center justify-between">
         <Button 
           type="button" 
-          onClick={calculerAmortissement}
+          onClick={handleCalculerAmortissement}
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
         >
           Calculer Amortissement
         </Button>
       </div>
       <div className="mt-6">
-        <p className="text-gray-700 text-sm">Amortissement Annuel (MAD): <span className="font-bold">{amortissementAnnuel}</span></p>
+        <p className="text-gray-700 text-sm">Amortissement Annuel (MAD): <span className="font-bold">{values.amortissementAnnuel}</span></p>
       </div>
     </form>
   );

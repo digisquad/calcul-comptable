@@ -1,25 +1,26 @@
 "use client";
 
-import { useState } from 'react';
-import Decimal from 'decimal.js';
 import { Button } from "./ui/Form/Button/button";
-import { InputWithLabel } from "@/components/ui/Form/InputWithLabel/InputWithLabel";  
+import { InputWithLabel } from "@/components/ui/Form/InputWithLabel/InputWithLabel";
+import { useFormInput } from '@/components/hooks/useFormInput';
+import { calculerTTC } from '@/components/helpers';
+
+interface Values {
+  montantHT: number;
+  tauxTVA: number;
+  totalTTC: number;
+}
 
 const CalculHTTTC = () => {
-  const [montantHT, setMontantHT] = useState<number>(0);
-  const [tauxTVA, setTauxTVA] = useState<number>(20);
-  const [totalTTC, setTotalTTC] = useState<number>(0);
+  const [values, handleChange, setValues] = useFormInput<Values>({
+    montantHT: 0,
+    tauxTVA: 20,
+    totalTTC: 0
+  });
 
-  const handleInputChange = (setter: React.Dispatch<React.SetStateAction<number>>) => (e: React.ChangeEvent<HTMLInputElement>) => {
-    setter(Number(e.target.value));
-  };
-
-  const calculerTTC = () => {
-    const montantHTDecimal = new Decimal(montantHT);
-    const tauxTVADecimal = new Decimal(tauxTVA);
-    const ttc = montantHTDecimal.times(new Decimal(1).plus(tauxTVADecimal.dividedBy(100))).toDecimalPlaces(2);
-
-    setTotalTTC(ttc.toNumber());
+  const calculate = () => {
+    const totalTTC = calculerTTC(values);
+    setValues(prev => ({ ...prev, totalTTC }));
   };
 
   return (
@@ -28,34 +29,36 @@ const CalculHTTTC = () => {
       <div className="mb-4">
         <InputWithLabel 
           id="montantHT" 
+          name="montantHT"
           label="Montant HT (MAD)"
           type="number" 
-          value={montantHT.toString()} 
-          onChange={handleInputChange(setMontantHT)}
+          value={values.montantHT.toString()} 
+          onChange={handleChange}
           className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         />
       </div>
       <div className="mb-4">
         <InputWithLabel 
           id="tauxTVA" 
+          name="tauxTVA"
           label="Taux de TVA (%)"
           type="number" 
-          value={tauxTVA.toString()} 
-          onChange={handleInputChange(setTauxTVA)}
+          value={values.tauxTVA.toString()} 
+          onChange={handleChange}
           className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         />
       </div>
       <div className="flex items-center justify-between">
         <Button 
           type="button" 
-          onClick={calculerTTC}
+          onClick={calculate}
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
         >
           Calculer TTC
         </Button>
       </div>
       <div className="mt-6">
-        <p className="text-gray-700 text-sm">Total TTC (MAD): <span className="font-bold">{totalTTC}</span></p>
+        <p className="text-gray-700 text-sm">Total TTC (MAD): <span className="font-bold">{values.totalTTC}</span></p>
       </div>
     </form>
   );

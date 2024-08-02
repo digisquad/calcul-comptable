@@ -1,22 +1,27 @@
 "use client";
 
-import { useState } from 'react';
-import Decimal from 'decimal.js';
 import { Button } from "./ui/Form/Button/button";
-import { InputWithLabel } from "@/components/ui/Form/InputWithLabel/InputWithLabel";  
+import { InputWithLabel } from "@/components/ui/Form/InputWithLabel/InputWithLabel";
+import { useFormInput } from '@/components/hooks/useFormInput';
+import { calculerSalaireNet } from '@/components/helpers';
+import Decimal from 'decimal.js';
+
+interface SalaryValues {
+  salaireBrut: Decimal;
+  cotisationsSociales: Decimal;
+  salaireNet: Decimal;
+}
 
 const CalculSalaires = () => {
-  const [salaireBrut, setSalaireBrut] = useState(new Decimal(0));
-  const [cotisationsSociales, setCotisationsSociales] = useState(new Decimal(0));
-  const [salaireNet, setSalaireNet] = useState(new Decimal(0));
+  const [values, handleChange, setValues] = useFormInput<SalaryValues>({
+    salaireBrut: new Decimal(0),
+    cotisationsSociales: new Decimal(0),
+    salaireNet: new Decimal(0)
+  });
 
-  const handleInputChange = (setter: React.Dispatch<React.SetStateAction<Decimal>>) => (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = new Decimal(e.target.value);
-    setter(value);
-  };
-
-  const calculerSalaireNet = () => {
-    setSalaireNet(salaireBrut.minus(cotisationsSociales));
+  const calculate = () => {
+    const salaireNet = calculerSalaireNet(values);
+    setValues(prev => ({ ...prev, salaireNet }));
   };
 
   return (
@@ -25,34 +30,36 @@ const CalculSalaires = () => {
       <div className="mb-4">
         <InputWithLabel 
           id="salaireBrut" 
-          label="Salaire Brut (MAD)"
+          name="salaireBrut"
+          label="Salaire Brut (MAD)" 
           type="number" 
-          value={salaireBrut.toString()} 
-          onChange={handleInputChange(setSalaireBrut)}
+          value={values.salaireBrut.toString()} 
+          onChange={handleChange}
           className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         />
       </div>
       <div className="mb-4">
         <InputWithLabel 
           id="cotisationsSociales" 
-          label="Cotisations Sociales (MAD)"
+          name="cotisationsSociales"
+          label="Cotisations Sociales (MAD)" 
           type="number" 
-          value={cotisationsSociales.toString()} 
-          onChange={handleInputChange(setCotisationsSociales)}
+          value={values.cotisationsSociales.toString()} 
+          onChange={handleChange}
           className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         />
       </div>
       <div className="flex items-center justify-between">
         <Button 
           type="button" 
-          onClick={calculerSalaireNet}
+          onClick={calculate}
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
         >
           Calculer Salaire Net
         </Button>
       </div>
       <div className="mt-6">
-        <p className="text-gray-700 text-sm">Salaire Net (MAD): <span className="font-bold">{salaireNet.toString()}</span></p>
+        <p className="text-gray-700 text-sm">Salaire Net (MAD): <span className="font-bold">{values.salaireNet.toString()}</span></p>
       </div>
     </form>
   );

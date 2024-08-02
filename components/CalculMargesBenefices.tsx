@@ -1,26 +1,25 @@
 "use client";
 
 import { useState } from 'react';
-import Decimal from 'decimal.js';
 import { Button } from "./ui/Form/Button/button";
-import { InputWithLabel } from "@/components/ui/Form/InputWithLabel/InputWithLabel";  
+import { InputWithLabel } from "@/components/ui/Form/InputWithLabel/InputWithLabel";
+import { useDecimalInput } from '@/components/hooks/useDecimalInput';
+import { calculerMarge } from '@/components/helpers';
+import Decimal from 'decimal.js';
 
+interface Result {
+  margeBrute: Decimal;
+  margeNette: Decimal;
+}
 
 const CalculMargesBenefices = () => {
-  const [chiffreAffaires, setChiffreAffaires] = useState(new Decimal(0));
-  const [coutVentes, setCoutVentes] = useState(new Decimal(0));
-  const [margeBrute, setMargeBrute] = useState(new Decimal(0));
-  const [margeNette, setMargeNette] = useState(new Decimal(0));
+  const [chiffreAffaires, handleChiffreAffairesChange] = useDecimalInput();
+  const [coutVentes, handleCoutVentesChange] = useDecimalInput();
+  const [result, setResult] = useState<Result>({ margeBrute: new Decimal(0), margeNette: new Decimal(0) });
 
-  const handleInputChange = (setter: React.Dispatch<React.SetStateAction<Decimal>>) => (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = new Decimal(e.target.value);
-    setter(value);
-  };
-
-  const calculerMarge = () => {
-    const margeB = chiffreAffaires.minus(coutVentes);
-    setMargeBrute(margeB);
-    setMargeNette(margeB.div(chiffreAffaires).times(100));
+  const calculate = () => {
+    const { margeBrute, margeNette } = calculerMarge({ chiffreAffaires, coutVentes });
+    setResult({ margeBrute, margeNette });
   };
 
   return (
@@ -30,37 +29,37 @@ const CalculMargesBenefices = () => {
         <InputWithLabel
           id="chiffreAffaires" 
           type="number" 
-          value={chiffreAffaires.toString()} 
-          onChange={handleInputChange(setChiffreAffaires)}
+          value={chiffreAffaires.toString()}
+          onChange={handleChiffreAffairesChange}
+          label="Chiffre d'Affaires (MAD)"
           className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          label = "Chiffre d'Affaires (MAD)"
         />
       </div>
       <div className="mb-4">
         <InputWithLabel
           id="coutVentes" 
           type="number" 
-          value={coutVentes.toString()} 
-          onChange={handleInputChange(setCoutVentes)}
+          value={coutVentes.toString()}
+          onChange={handleCoutVentesChange}
+          label="Coût des Ventes (MAD)"
           className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          label = "Coût des Ventes (MAD)"
         />
       </div>
-      <div className="flex items-center justify-between">
+      <div className="mb-6">
         <Button 
           type="button" 
-          onClick={calculerMarge}
+          onClick={calculate}
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
         >
-          Calculer Marge
+          Calculer
         </Button>
       </div>
-      <div className="mt-6">
-        <p className="text-gray-700 text-sm">Marge Brute (MAD): <span className="font-bold">{margeBrute.toString()}</span></p>
-        <p className="text-gray-700 text-sm">Marge Nette (%): <span className="font-bold">{margeNette.toFixed(2)}</span></p>
+      <div>
+        <p>Marge Brute: {result.margeBrute.toString()}</p>
+        <p>Marge Nette: {result.margeNette.toString()}</p>
       </div>
     </form>
   );
-}
+};
 
 export default CalculMargesBenefices;

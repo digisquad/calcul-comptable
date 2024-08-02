@@ -1,29 +1,28 @@
 "use client";
 
-import { useState, ChangeEvent } from 'react';
-import Decimal from 'decimal.js';
 import { Button } from "./ui/Form/Button/button";
-import { InputWithLabel } from "@/components/ui/Form/InputWithLabel/InputWithLabel";  
+import { InputWithLabel } from "@/components/ui/Form/InputWithLabel/InputWithLabel";
+import { useFormInput } from '@/components/hooks/useFormInput';
+import { calculerTVA } from '@/components/helpers';
+
+interface TVAValues {
+  totalTTC: number;
+  tauxTVA: number;
+  montantTVA: number;
+  totalHT: number;
+}
 
 const CalculTVA = () => {
-  const [totalTTC, setTotalTTC] = useState<number>(0);
-  const [tauxTVA, setTauxTVA] = useState<number>(20);
-  const [montantTVA, setMontantTVA] = useState<number>(0);
-  const [totalHT, setTotalHT] = useState<number>(0);
+  const [values, handleChange, setValues] = useFormInput<TVAValues>({
+    totalTTC: 0,
+    tauxTVA: 20,
+    montantTVA: 0,
+    totalHT: 0
+  });
 
-  const handleInputChange = (setter: React.Dispatch<React.SetStateAction<number>>) => (e: ChangeEvent<HTMLInputElement>) => {
-    setter(Number(e.target.value));
-  };
-
-  const calculerTVA = () => {
-    const totalTTCDecimal = new Decimal(totalTTC);
-    const tauxTVADecimal = new Decimal(tauxTVA);
-    const divisor = new Decimal(100).plus(tauxTVADecimal);
-    const tva = totalTTCDecimal.times(tauxTVADecimal).dividedBy(divisor).toDecimalPlaces(2);
-    const totalHT = totalTTCDecimal.minus(tva).toDecimalPlaces(2);
-
-    setMontantTVA(tva.toNumber());
-    setTotalHT(totalHT.toNumber());
+  const calculate = () => {
+    const result = calculerTVA(values);
+    setValues(prevState => ({ ...prevState, ...result }));
   };
 
   return (
@@ -34,8 +33,8 @@ const CalculTVA = () => {
           id="totalTTC" 
           label="Total TTC (MAD)" 
           type="number" 
-          value={totalTTC.toString()} 
-          onChange={handleInputChange(setTotalTTC)}
+          value={values.totalTTC.toString()} 
+          onChange={handleChange}
           className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         />
       </div>
@@ -44,23 +43,23 @@ const CalculTVA = () => {
           id="tauxTVA" 
           label="Taux de TVA (%)" 
           type="number" 
-          value={tauxTVA.toString()} 
-          onChange={handleInputChange(setTauxTVA)}
+          value={values.tauxTVA.toString()} 
+          onChange={handleChange}
           className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         />
       </div>
       <div className="flex items-center justify-between">
         <Button 
           type="button" 
-          onClick={calculerTVA}
+          onClick={calculate}
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
         >
           Calculer TVA
         </Button>
       </div>
       <div className="mt-6">
-        <p className="text-gray-700 text-sm">Montant de la TVA (MAD): <span className="font-bold">{montantTVA}</span></p>
-        <p className="text-gray-700 text-sm">Total HT (MAD): <span className="font-bold">{totalHT}</span></p>
+        <p className="text-gray-700 text-sm">Montant de la TVA (MAD): <span className="font-bold">{values.montantTVA}</span></p>
+        <p className="text-gray-700 text-sm">Total HT (MAD): <span className="font-bold">{values.totalHT}</span></p>
       </div>
     </form>
   );
