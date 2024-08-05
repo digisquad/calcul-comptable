@@ -39,7 +39,6 @@ const CalculAmortissements = () => {
       <div className="mb-4">
         <InputWithLabel 
           id="valeurAcquisition" 
-          name="valeurAcquisition"
           label="Valeur d'Acquisition (MAD)" 
           type="number" 
           value={values.valeurAcquisition.toString()} 
@@ -50,7 +49,6 @@ const CalculAmortissements = () => {
       <div className="mb-4">
         <InputWithLabel 
           id="valeurResiduelle"
-          name="valeurResiduelle"
           label="Valeur Résiduelle (MAD)" 
           type="number" 
           value={values.valeurResiduelle.toString()} 
@@ -61,7 +59,6 @@ const CalculAmortissements = () => {
       <div className="mb-4">
         <InputWithLabel 
           id="dureeAmortissement"
-          name="dureeAmortissement"
           label="Durée d'Amortissement (années)" 
           type="number" 
           value={values.dureeAmortissement.toString()} 
