@@ -5,6 +5,7 @@ import { useFormInput } from "@/components/hooks/useFormInput"
 import { calculerTVA } from "@/components/helpers"
 import { ReusableForm } from "@/components/FormDisplay" // Adjust the import path as needed
 import ResultDisplay from "./displayedResult"
+
 interface TVAValues {
   totalTTC: number
   tauxTVA: number
@@ -20,9 +21,22 @@ const CalculTVA: React.FC = () => {
     totalHT: 0,
   })
 
+  const validateValues = (values: TVAValues) => {
+    return values.totalTTC > 0 && values.tauxTVA > 0
+  }
+
   const calculate = () => {
+    if (!validateValues(values)) return
     const result = calculerTVA(values)
     setValues((prevState) => ({ ...prevState, ...result }))
+  }
+
+  const handleNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target
+    if (/^\d*\.?\d*$/.test(value)) {
+      // Regex to allow only positive numbers and decimals
+      handleChange(e)
+    }
   }
 
   const fields = [
@@ -32,7 +46,7 @@ const CalculTVA: React.FC = () => {
       label: "Total TTC (MAD)",
       type: "number",
       value: values.totalTTC.toString(),
-      onChange: handleChange,
+      onChange: handleNumberChange,
     },
     {
       id: "tauxTVA",
@@ -40,7 +54,7 @@ const CalculTVA: React.FC = () => {
       label: "Taux de TVA (%)",
       type: "number",
       value: values.tauxTVA.toString(),
-      onChange: handleChange,
+      onChange: handleNumberChange,
     },
   ]
 
@@ -61,6 +75,7 @@ const CalculTVA: React.FC = () => {
       fields={fields}
       onSubmit={calculate}
       submitButtonText="Calculer TVA"
+      submitButtonDisabled={!validateValues(values)}
       result={<ResultDisplay results={results} />}
     />
   )
