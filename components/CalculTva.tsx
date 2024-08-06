@@ -1,10 +1,10 @@
 "use client"
 
-import { Button } from "./ui/Form/Button/button"
-import { InputWithLabel } from "@/components/ui/Form/InputWithLabel/InputWithLabel"
+import React from "react"
 import { useFormInput } from "@/components/hooks/useFormInput"
 import { calculerTVA } from "@/components/helpers"
-
+import { ReusableForm } from "@/components/FormDisplay" // Adjust the import path as needed
+import ResultDisplay from "./displayedResult"
 interface TVAValues {
   totalTTC: number
   tauxTVA: number
@@ -12,7 +12,7 @@ interface TVAValues {
   totalHT: number
 }
 
-const CalculTVA = () => {
+const CalculTVA: React.FC = () => {
   const [values, handleChange, setValues] = useFormInput<TVAValues>({
     totalTTC: 0,
     tauxTVA: 20,
@@ -25,48 +25,44 @@ const CalculTVA = () => {
     setValues((prevState) => ({ ...prevState, ...result }))
   }
 
+  const fields = [
+    {
+      id: "totalTTC",
+      name: "totalTTC",
+      label: "Total TTC (MAD)",
+      type: "number",
+      value: values.totalTTC.toString(),
+      onChange: handleChange,
+    },
+    {
+      id: "tauxTVA",
+      name: "tauxTVA",
+      label: "Taux de TVA (%)",
+      type: "number",
+      value: values.tauxTVA.toString(),
+      onChange: handleChange,
+    },
+  ]
+
+  const results = [
+    {
+      label: "Montant de la TVA (MAD)",
+      value: values.montantTVA,
+    },
+    {
+      label: "Total HT (MAD)",
+      value: values.totalHT,
+    },
+  ]
+
   return (
-    <form className="mx-auto mb-4 max-w-lg rounded bg-white px-8 pb-8 pt-6 shadow-md">
-      <h2 className="mb-6 text-2xl font-bold text-gray-800">Calcul de la TVA</h2>
-      <div className="mb-4">
-        <InputWithLabel
-          id="totalTTC"
-          name="totalTTC"
-          label="Total TTC (MAD)"
-          type="number"
-          value={values.totalTTC.toString()}
-          onChange={handleChange}
-          className="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none"
-        />
-      </div>
-      <div className="mb-4">
-        <InputWithLabel
-          id="tauxTVA"
-          label="Taux de TVA (%)"
-          type="number"
-          value={values.tauxTVA.toString()}
-          onChange={handleChange}
-          className="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none"
-        />
-      </div>
-      <div className="flex items-center justify-between">
-        <Button
-          type="button"
-          onClick={calculate}
-          className="focus:shadow-outline rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700 focus:outline-none"
-        >
-          Calculer TVA
-        </Button>
-      </div>
-      <div className="mt-6">
-        <p className="text-sm text-gray-700">
-          Montant de la TVA (MAD): <span className="font-bold">{values.montantTVA}</span>
-        </p>
-        <p className="text-sm text-gray-700">
-          Total HT (MAD): <span className="font-bold">{values.totalHT}</span>
-        </p>
-      </div>
-    </form>
+    <ReusableForm
+      title="Calcul de la TVA"
+      fields={fields}
+      onSubmit={calculate}
+      submitButtonText="Calculer TVA"
+      result={<ResultDisplay results={results} />}
+    />
   )
 }
 

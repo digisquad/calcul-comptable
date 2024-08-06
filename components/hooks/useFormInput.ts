@@ -1,5 +1,3 @@
-// hooks/useFormInput.ts
-
 import { useState, ChangeEvent } from 'react';
 
 const handleInputChange = <T,>(
@@ -14,7 +12,6 @@ const handleInputChange = <T,>(
   }));
 };
 
-// Custom hook to manage form input values
 const useFormInput = <T,>(initialValues: T, transform?: (value: string) => any) => {
   const [values, setValues] = useState<T>(initialValues);
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => handleInputChange(event, setValues, transform);
