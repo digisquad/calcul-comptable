@@ -16,7 +16,7 @@ const ResultDisplay: React.FC<ResultDisplayProps> = ({ results }) => {
     <>
       {results.map((result, index) => (
         <p key={index} className="text-sm text-gray-700">
-          {result.label}:{" "}
+          {`${result.label}: `}
           <span className="font-bold">{result.value instanceof Decimal ? result.value.toString() : result.value}</span>
         </p>
       ))}
