@@ -1,4 +1,5 @@
 import { useState, ChangeEvent } from 'react';
+import Decimal from 'decimal.js';
 
 const handleInputChange = <T,>(
   event: ChangeEvent<HTMLInputElement>,
@@ -6,10 +7,13 @@ const handleInputChange = <T,>(
   transform?: (value: string) => any
 ) => {
   const { name, value } = event.target;
-  setValues(prev => ({
-    ...prev,
-    [name]: transform ? transform(value) : value
-  }));
+  const decimalValue = new Decimal(value);
+  if (!decimalValue.isNaN() && decimalValue.greaterThanOrEqualTo(0)) {
+    setValues(prev => ({
+      ...prev,
+      [name]: transform ? transform(value) : value
+    }));
+  }
 };
 
 const useFormInput = <T,>(initialValues: T, transform?: (value: string) => any) => {

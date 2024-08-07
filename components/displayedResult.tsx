@@ -1,4 +1,4 @@
-// components/ResultDisplay.tsx
+// ResultDisplay.tsx
 import React from "react"
 import Decimal from "decimal.js"
 

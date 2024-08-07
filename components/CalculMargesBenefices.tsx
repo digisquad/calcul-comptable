@@ -52,6 +52,9 @@ const CalculMargesBenefices: React.FC = () => {
     },
   ]
 
+  // Check if all required fields have valid values
+  const isFormValid = chiffreAffaires.greaterThan(0) && coutVentes.greaterThan(0)
+
   return (
     <ReusableForm
       title="Calcul des Marges et Bénéfices"
@@ -59,6 +62,7 @@ const CalculMargesBenefices: React.FC = () => {
       onSubmit={calculate}
       submitButtonText="Calculer"
       result={<ResultDisplay results={results} />}
+      isFormValid={isFormValid} // Pass the form validation state
     />
   )
 }

@@ -17,9 +17,17 @@ interface ReusableFormProps {
   onSubmit: () => void
   submitButtonText: string
   result?: React.ReactNode
+  isFormValid: boolean // New prop to indicate if the form is valid
 }
 
-export const ReusableForm: React.FC<ReusableFormProps> = ({ title, fields, onSubmit, submitButtonText, result }) => {
+export const ReusableForm: React.FC<ReusableFormProps> = ({
+  title,
+  fields,
+  onSubmit,
+  submitButtonText,
+  result,
+  isFormValid,
+}) => {
   return (
     <form className="mx-auto mb-4 max-w-lg rounded bg-white px-8 pb-8 pt-6 shadow-md">
       <h2 className="mb-6 text-2xl font-bold text-gray-800">{title}</h2>
@@ -41,6 +49,7 @@ export const ReusableForm: React.FC<ReusableFormProps> = ({ title, fields, onSub
           type="button"
           onClick={onSubmit}
           className="focus:shadow-outline rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700 focus:outline-none"
+          disabled={!isFormValid} // Disable the button if the form is not valid
         >
           {submitButtonText}
         </Button>

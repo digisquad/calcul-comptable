@@ -22,7 +22,11 @@ const useDecimalArray = (initialValue: Decimal[] = [new Decimal(0)]) => {
     setValues(prevValues => [...prevValues, new Decimal(0)]);
   };
 
-  return [values, handleChange, addNewItem] as const;
+  const removeItem = (index: number) => {
+    setValues(prevValues => prevValues.filter((_, i) => i !== index));
+  };
+
+  return [values, handleChange, addNewItem, removeItem] as const;
 };
 
 export { useDecimalArray };

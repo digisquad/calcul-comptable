@@ -67,6 +67,7 @@ const CalculAmortissements: React.FC = () => {
     },
   ]
 
+  const isFormValid = values.valeurAcquisition > 0 && values.valeurResiduelle > 0 && values.dureeAmortissement > 0
   return (
     <ReusableForm
       title="Gestion des Amortissements"
@@ -74,6 +75,7 @@ const CalculAmortissements: React.FC = () => {
       onSubmit={handleCalculerAmortissement}
       submitButtonText="Calculer Amortissement"
       result={<ResultDisplay results={results} />}
+      isFormValid={isFormValid}
     />
   )
 }

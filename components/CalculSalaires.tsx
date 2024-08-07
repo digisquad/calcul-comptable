@@ -15,7 +15,7 @@ const CalculSalaires: React.FC = () => {
     salaireBrut: new Decimal(0),
     cotisationsSociales: new Decimal(0),
     salaireNet: new Decimal(0),
-  })
+  }, (value: string) => new Decimal(value))
 
   const calculate = () => {
     const salaireNet = calculerSalaireNet(values)
@@ -48,6 +48,9 @@ const CalculSalaires: React.FC = () => {
     },
   ]
 
+  // Check if all required fields have valid values
+  const isFormValid = values.salaireBrut.greaterThan(0) && values.cotisationsSociales.greaterThan(0);
+
   return (
     <ReusableForm
       title="Calcul des Salaires Net et Brut"
@@ -55,6 +58,7 @@ const CalculSalaires: React.FC = () => {
       onSubmit={calculate}
       submitButtonText="Calculer Salaire Net"
       result={<ResultDisplay results={results} />}
+      isFormValid={isFormValid} // Pass the form validation state
     />
   )
 }
