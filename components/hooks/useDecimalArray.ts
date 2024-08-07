@@ -8,7 +8,7 @@ const handleDecimalArrayInputChange = (
 ) => {
   setValues(prevValues => {
     const newValues = [...prevValues];
-    newValues[index] = new Decimal(value);
+    newValues[index] = value ? new Decimal(value) : new Decimal(0);
     return newValues;
   });
 };

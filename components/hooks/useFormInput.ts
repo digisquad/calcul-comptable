@@ -7,12 +7,17 @@ const handleInputChange = <T,>(
   transform?: (value: string) => any
 ) => {
   const { name, value } = event.target;
-  const decimalValue = new Decimal(value);
-  if (!decimalValue.isNaN() && decimalValue.greaterThanOrEqualTo(0)) {
-    setValues(prev => ({
-      ...prev,
-      [name]: transform ? transform(value) : value
-    }));
+  try {
+    const decimalValue = new Decimal(value);
+    if (!decimalValue.isNaN() && decimalValue.greaterThanOrEqualTo(0)) {
+      setValues(prev => ({
+        ...prev,
+        [name]: transform ? transform(value) : value
+      }));
+    }
+  } catch (e) {
+    // Handle invalid Decimal input
+    console.error("Invalid decimal input:", e);
   }
 };
 
