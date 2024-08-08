@@ -3,8 +3,8 @@
 import React from "react"
 import { useFormInput } from "@/components/hooks/useFormInput"
 import { calculerTTC } from "@/components/helpers"
-import { ReusableForm } from "@/components/FormDisplay" // Adjust the import path as needed
-import ResultDisplay from "./displayedResult"
+import { ReusableForm } from "@/components/FormDisplay"
+import ResultDisplay from "@/components/displayedResult"
 interface Values {
   montantHT: number
   tauxTVA: number

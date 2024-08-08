@@ -4,7 +4,7 @@ import React from "react"
 import { calculerAmortissement } from "@/components/helpers"
 import { useFormInput } from "@/components/hooks/useFormInput"
 import { ReusableForm } from "@/components/FormDisplay"
-import ResultDisplay from "./displayedResult"
+import ResultDisplay from "@/components/displayedResult"
 
 interface Values {
   valeurAcquisition: number

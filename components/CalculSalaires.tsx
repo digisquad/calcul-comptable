@@ -11,11 +11,14 @@ interface SalaryValues {
 }
 
 const CalculSalaires: React.FC = () => {
-  const [values, handleChange, setValues] = useFormInput<SalaryValues>({
-    salaireBrut: new Decimal(0),
-    cotisationsSociales: new Decimal(0),
-    salaireNet: new Decimal(0),
-  }, (value: string) => new Decimal(value))
+  const [values, handleChange, setValues] = useFormInput<SalaryValues>(
+    {
+      salaireBrut: new Decimal(0),
+      cotisationsSociales: new Decimal(0),
+      salaireNet: new Decimal(0),
+    },
+    (value: string) => new Decimal(value),
+  )
 
   const calculate = () => {
     const salaireNet = calculerSalaireNet(values)
@@ -49,7 +52,7 @@ const CalculSalaires: React.FC = () => {
   ]
 
   // Check if all required fields have valid values
-  const isFormValid = values.salaireBrut.greaterThan(0) && values.cotisationsSociales.greaterThan(0);
+  const isFormValid = values.salaireBrut.greaterThan(0) && values.cotisationsSociales.greaterThan(0)
 
   return (
     <ReusableForm

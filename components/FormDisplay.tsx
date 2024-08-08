@@ -1,5 +1,5 @@
 import React from "react"
-import { Button } from "./ui/Form/Button/button"
+import { Button } from "@/components/ui/Form/Button/button"
 import { InputWithLabel } from "@/components/ui/Form/InputWithLabel/InputWithLabel"
 
 interface FormField {

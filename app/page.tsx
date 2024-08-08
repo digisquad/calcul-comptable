@@ -1,13 +1,13 @@
-'use client';
+"use client"
 
-import React, { useState } from 'react';
-import Navigation from "@/components/Navigation";
-import CalculTVA from "@/components/CalculTva";
-import CalculHTTTC from "@/components/CalculHTTTC";
-import CalculMargesBenefices from "@/components/CalculMargesBenefices";
-import CalculAmortissements from "@/components/CalculAmortissements";
-import SuiviDepensesRevenus from "@/components/SuiviDepensesRevenus";
-import CalculSalaires from "@/components/CalculSalaires";
+import React, { useState } from "react"
+import Navigation from "@/components/Navigation"
+import CalculTVA from "@/components/CalculTva"
+import CalculHTTTC from "@/components/CalculHTTTC"
+import CalculMargesBenefices from "@/components/CalculMargesBenefices"
+import CalculAmortissements from "@/components/CalculAmortissements"
+import SuiviDepensesRevenus from "@/components/SuiviDepensesRevenus"
+import CalculSalaires from "@/components/CalculSalaires"
 
 const componentMap = {
   CalculTVA,
@@ -16,27 +16,27 @@ const componentMap = {
   CalculAmortissements,
   SuiviDepensesRevenus,
   CalculSalaires,
-};
+}
 
-export type ComponentKey = keyof typeof componentMap;
+export type ComponentKey = keyof typeof componentMap
 
 const FormContainer: React.FC = () => {
-  const [activeComponent, setActiveComponent] = useState<ComponentKey>('CalculTVA');
+  const [activeComponent, setActiveComponent] = useState<ComponentKey>("CalculTVA")
 
-  const ActiveComponent = componentMap[activeComponent];
+  const ActiveComponent = componentMap[activeComponent]
 
   return (
-    <div className="flex flex-col md:flex-row min-h-screen bg-gray-100">
-      <nav className="w-full md:w-64 bg-white shadow-md">
+    <div className="flex min-h-screen flex-col bg-gray-100 md:flex-row">
+      <nav className="w-full bg-white shadow-md md:w-64">
         <Navigation setActiveComponent={setActiveComponent} />
       </nav>
-      <main className="flex-grow p-4 md:p-8 bg-white shadow-md">
-        <div className="max-w-3xl mx-auto">
+      <main className="flex-grow bg-white p-4 shadow-md md:p-8">
+        <div className="mx-auto max-w-3xl">
           <ActiveComponent />
         </div>
       </main>
     </div>
-  );
-};
+  )
+}
 
-export default FormContainer;
+export default FormContainer

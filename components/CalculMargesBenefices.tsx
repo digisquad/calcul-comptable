@@ -5,7 +5,7 @@ import { useDecimalInput } from "@/components/hooks/useDecimalInput"
 import { calculerMarge } from "@/components/helpers"
 import Decimal from "decimal.js"
 import { ReusableForm } from "@/components/FormDisplay"
-import ResultDisplay from "./displayedResult"
+import ResultDisplay from "@/components/displayedResult"
 
 interface Result {
   margeBrute: Decimal
