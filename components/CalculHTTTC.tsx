@@ -49,7 +49,7 @@ const CalculHTTTC: React.FC = () => {
     },
   ]
 
-  const isFormValid = values.montantHT >= 0 && values.tauxTVA >= 0
+  const isFormValid = values.montantHT > 0 && values.tauxTVA > 0
   return (
     <ReusableForm
       title="Calcul des Totaux HT et TTC"
